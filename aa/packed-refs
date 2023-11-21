@@ -1,0 +1,5 @@
+# pack-refs with: peeled fully-peeled sorted 
+0e4f6fc5ccd452940270abfdd72dae3a95f6351f refs/remotes/origin/dev
+a162c5a1f26e6a8ad381441b964653f49cdb864c refs/remotes/origin/master
+a80326928e99217431cb8222c08ee6631aeea25d refs/remotes/origin/react-router-v6
+e6f6f72d680f54a47c7e0d2a364f680f4099075c refs/remotes/origin/video07
