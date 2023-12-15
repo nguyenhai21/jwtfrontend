@@ -89,6 +89,7 @@ const Register = (props) => {
         }
         // let userData = [email, phone, username, password, confirmPassword];
         // console.log('>>check userData: ', userData);
+        // 
     }
 
     return (
