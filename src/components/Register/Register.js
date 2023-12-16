@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { registerNewUser } from '../../services/userService';
 
 const Register = (props) => {
     const [email, setEmail] = useState("");
@@ -24,12 +25,12 @@ const Register = (props) => {
     const handleLoginAccount = () => {
         history.push("/login");
     }
-    useEffect(() => {
-        // axios.get("http://localhost:8080/api/v1/test-api").then(data => {
-        //     console.log('check data axios: ', data)
-        // })
+    // useEffect(() => {
+    //     // axios.get("http://localhost:8080/api/v1/test-api").then(data => {
+    //     //     console.log('check data axios: ', data)
+    //     // })
 
-    }, []);
+    // }, []);
 
     const isValidateInputs = () => {
         setObjCheckInput(defaultValidInput);
@@ -75,18 +76,28 @@ const Register = (props) => {
             setObjCheckInput({ ...defaultValidInput, isValidConfirmPassword: false });
             return false;
         }
-        toast.success('created successfully')
+        // toast.success('created successfully')
         return true;
 
     }
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+
         let check = isValidateInputs();
+
         if (check === true) {
-            axios.post('http://localhost:8080/api/v1/register', {
-                email, phone, username, password
-            })
+            let response = await registerNewUser(email, phone, username, password);
+            // console.log(">>check responses: ", response);
+            let serverData = response.data;
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM);
+                history.push("/login");
+            } else {
+                toast.error(serverData.EM)
+            }
         }
+
+
         // let userData = [email, phone, username, password, confirmPassword];
         // console.log('>>check userData: ', userData);
         // 
