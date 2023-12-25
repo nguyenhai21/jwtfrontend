@@ -1,5 +1,4 @@
 import './App.scss';
-import Login from './components/Login/Login';
 import Nav from './components/Navigation/Nav';
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,11 +8,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Register from './components/Register/Register';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Users from './components/ManageUsers/Users';
 import _ from "lodash"
+import Approutes from './routes/Approutes';
 
 function App() {
   const [account, setAccount] = useState({});
@@ -27,41 +26,11 @@ function App() {
 
   return (
     <Router>
+      <div className='app-header'>
+        <Nav />
+      </div>
       <div className='app-container'>
-        {account && !_.isEmpty(account) && account.isAuthenticated
-          && <Nav />
-        }
-
-        <Switch>
-          <Route path="/news">
-            news
-          </Route>
-
-          <Route path="/about">
-            about
-          </Route>
-
-          <Route path="/contact">
-            contact
-          </Route>
-
-          <Route path="/login">
-            <Login></Login>
-          </Route>
-
-          <Route path="/register">
-            <Register></Register>
-          </Route>
-
-          <Route path="/users">
-            <Users></Users>
-          </Route>
-
-          <Route path="/" exact>
-            home
-          </Route>
-          <Route path="*">404 not found</Route>
-        </Switch>
+        <Approutes />
       </div>
       <ToastContainer
         position="bottom-left"
