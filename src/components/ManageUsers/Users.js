@@ -12,11 +12,11 @@ const Users = (props) => {
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [currentPage]);
 
 
-    const fetchUsers = async (page) => {
-        let response = await fetchAllUser(page ? page : currentPage, currentLimit);
+    const fetchUsers = async () => {
+        let response = await fetchAllUser(currentPage, currentLimit);
         if (response && response.data && response.data.EC === 0) {
             setTotalPages(response.data.DT.totalPages);
             setListUsers(response.data.DT.users);
@@ -25,7 +25,7 @@ const Users = (props) => {
 
     const handlePageClick = async (event) => {
         setCurrentPage(+event.selected + 1);
-        await fetchUsers(+event.selected + 1);
+        // await fetchUsers(+event.selected + 1);
         // alert(event.selected)
         // const newOffset = event.selected * itemsPerPage % items.length;
         // console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
@@ -53,6 +53,7 @@ const Users = (props) => {
                                 <th scope="col">Email</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Group</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +67,10 @@ const Users = (props) => {
                                                 <td>{item.email}</td>
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
+                                                <td>
+                                                    <button className="btn btn-warning">Edit</button>
+                                                    <button className="btn btn-danger">Delete</button>
+                                                </td>
                                             </tr>
                                         )
                                     })}
