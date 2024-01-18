@@ -6,22 +6,27 @@ import ReactPaginate from 'react-paginate';
 
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([]);
-    console.log('>>check listuser 0: ', listUsers)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentLimit, setCurrentLimit] = useState(2);
+    const [totalPages, setTotalPages] = useState(0);
+
     useEffect(() => {
         fetchUsers();
     }, []);
-    console.log('>>check listuser 1: ', listUsers)
 
-    const fetchUsers = async () => {
-        let response = await fetchAllUser();
+
+    const fetchUsers = async (page) => {
+        let response = await fetchAllUser(page ? page : currentPage, currentLimit);
         if (response && response.data && response.data.EC === 0) {
-            setListUsers(response.data.DT);
-            console.log(response.data.DT);
+            setTotalPages(response.data.DT.totalPages);
+            setListUsers(response.data.DT.users);
         }
     }
 
-    const handlePageClick = (event) => {
-        alert(event.selected)
+    const handlePageClick = async (event) => {
+        setCurrentPage(+event.selected + 1);
+        await fetchUsers(+event.selected + 1);
+        // alert(event.selected)
         // const newOffset = event.selected * itemsPerPage % items.length;
         // console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         // setItemOffset(newOffset);
@@ -67,35 +72,36 @@ const Users = (props) => {
                                 </>
                                 :
                                 <>
-                                    <span>Not found user</span>
+                                    <tr><td>Not found user</td></tr>
                                 </>
                             }
                         </tbody>
                     </table>
                 </div>
-
-                <div className="user-footer">
-                    <ReactPaginate
-                        nextLabel="next >"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={2}
-                        pageCount={50}
-                        previousLabel="< previous"
-                        pageClassName="page-item"
-                        pageLinkClassName="page-link"
-                        previousClassName="page-item"
-                        previousLinkClassName="page-link"
-                        nextClassName="page-item"
-                        nextLinkClassName="page-link"
-                        breakLabel="..."
-                        breakClassName="page-item"
-                        breakLinkClassName="page-link"
-                        containerClassName="pagination"
-                        activeClassName="active"
-                        renderOnZeroPageCount={null}
-                    />
-                </div>
+                {totalPages > 0 &&
+                    <div className="user-footer">
+                        <ReactPaginate
+                            nextLabel="next >"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={3}
+                            marginPagesDisplayed={2}
+                            pageCount={totalPages}
+                            previousLabel="< previous"
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakLabel="..."
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                            containerClassName="pagination"
+                            activeClassName="active"
+                            renderOnZeroPageCount={null}
+                        />
+                    </div>
+                }
             </div>
         </div>
     )
