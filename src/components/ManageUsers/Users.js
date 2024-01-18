@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import './Users.scss';
 import { fetchAllUser } from "../../services/userService";
+import ReactPaginate from 'react-paginate';
 
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([]);
@@ -18,6 +19,13 @@ const Users = (props) => {
             console.log(response.data.DT);
         }
     }
+
+    const handlePageClick = (event) => {
+        alert(event.selected)
+        // const newOffset = event.selected * itemsPerPage % items.length;
+        // console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+        // setItemOffset(newOffset);
+    };
 
     return (
         <div className="container">
@@ -67,15 +75,26 @@ const Users = (props) => {
                 </div>
 
                 <div className="user-footer">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
+                    <ReactPaginate
+                        nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={2}
+                        pageCount={50}
+                        previousLabel="< previous"
+                        pageClassName="page-item"
+                        pageLinkClassName="page-link"
+                        previousClassName="page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="page-item"
+                        nextLinkClassName="page-link"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        renderOnZeroPageCount={null}
+                    />
                 </div>
             </div>
         </div>
