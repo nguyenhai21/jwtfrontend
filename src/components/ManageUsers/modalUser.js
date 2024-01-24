@@ -13,6 +13,8 @@ const ModalUser = (props) => {
     const [sex, setSex] = useState("");
     const [group, setGroup] = useState("");
 
+    const [userData, setUserData] = useState
+
     const [userGroups, setUserGroups] = useState([]);
 
     useEffect(() => {
