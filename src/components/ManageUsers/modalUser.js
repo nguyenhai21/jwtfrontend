@@ -33,6 +33,11 @@ const ModalUser = (props) => {
     useEffect(() => {
         getGroups();
     }, []);
+    useEffect(() => {
+        if (props.action === 'UPDATE') {
+            setUserData(props.dataModalUser);
+        }
+    }, [props.dataModalUser])
 
     const getGroups = async () => {
         let res = await fetchGroup();
@@ -74,6 +79,7 @@ const ModalUser = (props) => {
     }
 
     const handleConfirmUser = async () => {
+        //create user
         let check = checkValidateInputs();
         if (check === true) {
             let res = await createNewUser({ ...userData, groupID: userData['group'] });
@@ -81,8 +87,12 @@ const ModalUser = (props) => {
             if (res.data && res.data.EC == 0) {
                 props.onHide();
                 setUserData({ ...defaultUserData, group: userGroups[0].id })
-            } else {
-                toast.error(`Error Create user ...`);
+            }
+            if (res.data && res.data.EC !== 0) {
+                toast.error(res.data.EM);
+                let _validInputs = _.cloneDeep(validInputsDefault);
+                _validInputs[res.data.DT] = false;
+                setValidInputs(_validInputs);
             }
         }
     }
@@ -92,7 +102,7 @@ const ModalUser = (props) => {
             <Modal size="lg" show={props.isShowModelUser} className='modal-user' onHide={props.onHide}>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        <span>{props.title}</span>
+                        <span>{props.action === 'CREATE' ? 'Create New User' : 'Edit a user'}</span>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

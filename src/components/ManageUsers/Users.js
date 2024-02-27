@@ -10,11 +10,15 @@ import ModalUser from "./modalUser";
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentLimit, setCurrentLimit] = useState(2);
+    const [currentLimit, setCurrentLimit] = useState(3);
     const [totalPages, setTotalPages] = useState(0);
+    //modal delete
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
     const [dataModal, setDataModal] = useState({});
+    //modal update/create user
     const [isShowModelUser, setIsShowModalUser] = useState(false);
+    const [actionModelUser, setActionModalUser] = useState("UPDATE");
+    const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
         fetchUsers();
@@ -26,6 +30,7 @@ const Users = (props) => {
         if (response && response.data && response.data.EC === 0) {
             setTotalPages(response.data.DT.totalPages);
             setListUsers(response.data.DT.users);
+            console.log('check curen page= ', currentPage)
         }
     }
 
@@ -68,6 +73,11 @@ const Users = (props) => {
         setIsShowModalUser(false);
     }
 
+    const handleEditUser = (user) => {
+        setDataModalUser(user);
+        setIsShowModalUser(true);
+    }
+
     return (
         <>
             <div className="container">
@@ -99,13 +109,15 @@ const Users = (props) => {
                                         {listUsers.map((item, index) => {
                                             return (
                                                 <tr key={`row-${index}`}>
-                                                    <td>{index + 1}</td>
+                                                    <td>{(currentPage - 1) * currentLimit + index + 1}</td>
                                                     <td>{item.id}</td>
                                                     <td>{item.email}</td>
                                                     <td>{item.username}</td>
                                                     <td>{item.Group ? item.Group.name : ''}</td>
                                                     <td>
-                                                        <button className="btn btn-warning mx-3">Edit</button>
+                                                        <button className="btn btn-warning mx-3"
+                                                            onClick={() => handleEditUser(item)}
+                                                        >Edit</button>
                                                         <button className="btn btn-danger"
                                                             onClick={() => handleDeleteUser(item)}
                                                         >Delete</button>
@@ -156,9 +168,11 @@ const Users = (props) => {
                 dataModal={dataModal}
             ></ModalDelete>
             <ModalUser
-                title={`Create New User`}
+                // title={`Create New User`}
                 onHide={onHideModalUser}
                 isShowModelUser={isShowModelUser}
+                action={actionModelUser}
+                dataModalUser={dataModalUser}
             ></ModalUser>
         </>
     )
