@@ -17,7 +17,7 @@ const Users = (props) => {
     const [dataModal, setDataModal] = useState({});
     //modal update/create user
     const [isShowModelUser, setIsShowModalUser] = useState(false);
-    const [actionModelUser, setActionModalUser] = useState("UPDATE");
+    const [actionModelUser, setActionModalUser] = useState("CREATE");
     const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
@@ -69,11 +69,14 @@ const Users = (props) => {
         }
     }
 
-    const onHideModalUser = () => {
+    const onHideModalUser = async () => {
         setIsShowModalUser(false);
+        setDataModalUser({});
+        await fetchUsers();
     }
 
     const handleEditUser = (user) => {
+        setActionModalUser('UPDATE')
         setDataModalUser(user);
         setIsShowModalUser(true);
     }
@@ -88,7 +91,11 @@ const Users = (props) => {
                         </div>
                         <div className="actions">
                             <button className="btn btn-success">Refesh</button>
-                            <button className="btn btn-primary" onClick={() => setIsShowModalUser(true)}>Add new user</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                setIsShowModalUser(true);
+                                setActionModalUser('CREATE')
+                            }}>
+                                Add new user</button>
                         </div>
                     </div>
                     <div className="user-body">
