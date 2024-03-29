@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "http://0;s;1;P;c;5;h;0;m;1;0l;4;0o;0;0f;0;1b;0;S;c;5;o;1",
+            "request": "launch",
+            "url": "http://0;s;1;P;c;5;h;0;m;1;0l;4;0o;0;0f;0;1b;0;S;c;5;o;1"
+        }
+    ]
+}

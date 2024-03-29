@@ -8,6 +8,7 @@ import _ from 'lodash';
 const ModalUser = (props) => {
 
     const { action, dataModalUser } = props;
+
     const defaultUserData = {
         email: '',
         phone: '',
@@ -71,7 +72,7 @@ const ModalUser = (props) => {
 
     const checkValidateInputs = () => {
         //create user
-        if (action === 'UPDATE') return true;
+        
         setValidInputs(validInputsDefault);
         console.log('check data ', userData)
 
@@ -94,10 +95,10 @@ const ModalUser = (props) => {
         //create user
         let check = checkValidateInputs();
         if (check === true) {
-            let res = action === 'CREATE' ?
-                await createNewUser({ ...userData, groupID: userData['group'] })
-                : '';
-            console.log('>>check res: ', res);
+            // let res = action === 'CREATE' ?
+            //     await createNewUser({ ...userData, groupID: userData['group'] })
+            //     : '';
+            let res =await createNewUser({...userData, groupId: userData['group']});
             if (res.data && res.data.EC == 0) {
                 props.onHide();
                 setUserData({ ...defaultUserData, group: userGroups[0].id })

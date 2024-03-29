@@ -8,6 +8,8 @@ import ModalDelete from "./modalDelete";
 import ModalUser from "./modalUser";
 
 const Users = (props) => {
+    
+
     const [listUsers, setListUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentLimit, setCurrentLimit] = useState(3);

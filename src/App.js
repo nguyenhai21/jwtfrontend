@@ -16,7 +16,7 @@ import Approutes from './routes/Approutes';
 
 function App() {
   const [account, setAccount] = useState({});
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     let session = sessionStorage.getItem('account');
     if (session) {
